@@ -1,14 +1,12 @@
 FROM rhasspy/wyoming-piper:latest
 
-# Download Russian voice
+# Download Russian voice model
 RUN mkdir -p /data && \
     curl -L -o /data/ru_RU-denis-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx && \
-    curl -L -o /data/ru_RU-denis-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx.json && \
-    chmod -R 755 /data  # ← this line fixes the permissions
+    curl -L -o /data/ru_RU-denis-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx.json
 
-# Set this model as default
-ENV PIPER_VOICE=/data/ru_RU-denis-medium.onnx
-
+# Expose Piper's default port
 EXPOSE 10200
 
-CMD ["python3", "-m", "wyoming_piper", "--piper", "/data/ru_RU-denis-medium.onnx", "--voice", "ru_RU-denis-medium", "--data-dir", "/data"]
+# Set proper startup command for Piper
+CMD ["python3", "-m", "wyoming_piper", "--voice", "/data/ru_RU-denis-medium.onnx"]
