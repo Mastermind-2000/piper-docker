@@ -1,10 +1,11 @@
 FROM rhasspy/wyoming-piper:latest
 
-# Download Russian voice
-RUN mkdir -p /data && \
-    curl -L -o /data/ru_RU-denis-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx && \
-    curl -L -o /data/ru_RU-denis-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx.json
+# Download Russian voice into /tmp
+RUN mkdir -p /tmp/piper && \
+    curl -L -o /tmp/piper/ru_RU-denis-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx && \
+    curl -L -o /tmp/piper/ru_RU-denis-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx.json
 
 EXPOSE 10200
 
-CMD ["python3", "-m", "wyoming_piper", "--voice", "ru_RU-denis-medium.onnx", "--data-dir", "/data"]
+# Use --voice and --data-dir flags correctly
+CMD ["python3", "-m", "wyoming_piper", "--voice", "ru_RU-denis-medium.onnx", "--data-dir", "/tmp/piper"]
