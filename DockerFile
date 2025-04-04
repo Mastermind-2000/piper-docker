@@ -1,12 +1,10 @@
 FROM rhasspy/wyoming-piper:latest
 
-# Download Russian voice model
+# Download Russian voice
 RUN mkdir -p /data && \
     curl -L -o /data/ru_RU-denis-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx && \
     curl -L -o /data/ru_RU-denis-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx.json
 
-# Expose Piper's default port
 EXPOSE 10200
 
-# Set proper startup command for Piper
-CMD ["python3", "-m", "wyoming_piper", "--voice", "/data/ru_RU-denis-medium.onnx"]
+CMD ["python3", "-m", "wyoming_piper", "--voice", "ru_RU-denis-medium.onnx", "--data-dir", "/data"]
