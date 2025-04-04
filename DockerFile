@@ -1,0 +1,13 @@
+FROM rhasspy/wyoming-piper:latest
+
+# Download Russian voice (you can change it if needed)
+RUN mkdir -p /data && \
+    curl -L -o /data/ru_RU-denis-medium.onnx https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx && \
+    curl -L -o /data/ru_RU-denis-medium.onnx.json https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/ru/ru_RU/denis/medium/ru_RU-denis-medium.onnx.json
+
+# Set this model as default
+ENV PIPER_VOICE=/data/ru_RU-denis-medium.onnx
+
+EXPOSE 10200
+
+CMD ["python3", "-m", "wyoming_piper"]
